@@ -1,5 +1,5 @@
 const express = require("express");
-// const userRoutes = require("./routes/user");
+const userRoutes = require("./routes/userRts");
 // const messagesRoutes = require("./routes/message");
 const path = require("path"); // permet d'utiliser des fichiers
 const helmet = require("helmet"); //  helps you secure your Express.js apps by setting various HTTP headers
@@ -43,7 +43,7 @@ app.use(helmet({ crossOriginResourcePolicy: false }));
 // app.use("/images", express.static(path.join(__dirname, "images")));
 
 // app.use("/api/sauces", saucesRoutes);
-// app.use("/api/auth", userRoutes);
+app.use("/api/auth", userRoutes);
 
 // Limite la connexion par adresse IP
 limiter({
