@@ -1,13 +1,40 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+require("dotenv").config({ path: "./config/.env" });
+const { checkUser, requireAuth } = require("./middleware/auth.middleware");
 const { sequelize } = require("./models");
 const userRoutes = require("./routes/user.routes");
-// const { checkUser, requireAuth } = require("./middleware/auth.middleware");
+const postRoutes = require("./routes/post.routes");
+const cors = require("cors");
 
 const app = express();
+
+const corsOptions = {
+  origin: process.env.CLIENT_URL,
+  credentials: true,
+  allowedHeaders: ["sessionId", "Content-Type"],
+  exposedHeaders: ["sessionId"],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: false,
+};
+app.use(cors(corsOptions));
+
 app.use(express.json());
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+// jwt
+app.get("*", checkUser);
+app.get("/jwtid", requireAuth, (req, res) => {
+  res.status(200).send(res.locals.user.id);
+});
 
 // routes
 app.use("/users", userRoutes);
+app.use("/posts", postRoutes);
 
 // server
 app.listen({ port: 3000 }, async () => {
@@ -15,56 +42,3 @@ app.listen({ port: 3000 }, async () => {
   await sequelize.authenticate();
   console.log("Database Connected!");
 });
-
-// const http = require("http");
-// const app = require("./test/app");
-
-// const normalizePort = (val) => {
-//   const port = parseInt(val, 10);
-
-//   if (isNaN(port)) {
-//     return val;
-//   }
-//   if (port >= 0) {
-//     return port;
-//   }
-//   return false;
-// };
-// const port = normalizePort(process.env.PORT || "3000");
-// app.set("port", port);
-
-// const errorHandler = (error) => {
-//   if (error.syscall !== "listen") {
-//     throw error;
-//   }
-//   const address = server.address();
-//   const bind =
-//     typeof address === "string" ? "pipe " + address : "port: " + port;
-//   switch (error.code) {
-//     case "EACCES":
-//       console.error(bind + " requires elevated privileges.");
-//       process.exit(1);
-//       break;
-//     case "EADDRINUSE":
-//       console.error(bind + " is already in use.");
-//       process.exit(1);
-//       break;
-//     default:
-//       throw error;
-//   }
-// };
-
-// const server = http.createServer(app);
-
-// server.on("error", errorHandler);
-// server.on("listening", async () => {
-//   const address = server.address();
-//   const bind =
-//     typeof address === "string"
-//       ? "pipe " + address
-//       : "port " + "http://localhost:" + port;
-//   console.log("Listening on " + bind);
-//   await sequelize.sync({ alter: true });
-// });
-
-// server.listen(port);
