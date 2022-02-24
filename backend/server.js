@@ -27,10 +27,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // jwt
-app.get("*", checkUser);
-app.get("/jwtid", requireAuth, (req, res) => {
-  res.status(200).send(res.locals.user.id);
-});
+// app.get("*", checkUser);
+// app.get("/jwtid", requireAuth, (req, res) => {
+//   res.status(200).send(res.locals.user.uuid);
+// });
 
 // routes
 app.use("/users", userRoutes);
@@ -40,5 +40,6 @@ app.use("/posts", postRoutes);
 app.listen({ port: 3000 }, async () => {
   console.log("Listening on port 3000");
   await sequelize.authenticate();
+  sequelize.sync();
   console.log("Database Connected!");
 });

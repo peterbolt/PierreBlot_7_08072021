@@ -43,6 +43,9 @@ module.exports.updatePost = async (req, res) => {
     const post = await Post.findOne({
       where: { uuid },
     });
+    if (post.userUuid !== req.auth.userUuid) {
+      res.status(401).json({ message: "Vous n'avez pas les droits !" });
+    }
     post.message = message;
     post.picture = picture;
     post.video = video;
@@ -62,6 +65,9 @@ module.exports.deletePost = async (req, res) => {
     const post = await Post.findOne({
       where: { uuid },
     });
+    if (post.userUuid !== req.auth.userUuid) {
+      res.status(401).json({ message: "Vous n'avez pas les droits !" });
+    }
     await post.destroy();
     return res.json({ message: "Post deleted" });
   } catch (err) {
