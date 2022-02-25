@@ -53,10 +53,12 @@ module.exports = (sequelize, DataTypes) => {
       picture: {
         type: DataTypes.STRING,
         allowNull: true,
+        default: "./assets/random-user.png",
       },
       admin: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
+        default: false,
       },
     },
     {

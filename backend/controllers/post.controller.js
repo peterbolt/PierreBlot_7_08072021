@@ -1,4 +1,8 @@
 const { User, Post } = require("../models");
+const { uploadErrors } = require("../utils/errors.utils");
+const fs = require("fs");
+const { promisify } = require("util");
+const pipeline = promisify(require("stream").pipeline);
 
 // module.exports.readPost = (req, res) => {
 //   PostModel.find((err, docs) => {
@@ -20,6 +24,32 @@ module.exports.readPost = async (req, res) => {
 };
 
 module.exports.createPost = async (req, res) => {
+  // let fileName;
+
+  // if (req.file !== null) {
+  //   try {
+  //     if (
+  //       req.file.detectedMimeType != "image/jpg" &&
+  //       req.file.detectedMimeType != "image/png" &&
+  //       req.file.detectedMimeType != "image/jpeg"
+  //     )
+  //       throw Error("invalid file");
+
+  //     if (req.file.size > 500000) throw Error("max size");
+  //   } catch (err) {
+  //     const errors = uploadErrors(err);
+  //     return res.status(201).json({ errors });
+  //   }
+  //   fileName = req.body.posterId + Date.now() + ".jpg";
+
+  //   await pipeline(
+  //     req.file.stream,
+  //     fs.createWriteStream(
+  //       `${__dirname}/../client/public/uploads/posts/${fileName}`
+  //     )
+  //   );
+  // }
+
   const { userUuid, message, picture, video } = req.body;
   try {
     const user = await User.findOne({ where: { uuid: userUuid } });
@@ -27,6 +57,7 @@ module.exports.createPost = async (req, res) => {
       posterId: user.id,
       message,
       picture,
+      // picture: req.file !== null ? "./uploads/posts/" + fileName : "",
       video,
     });
     return res.status(201).json(post);

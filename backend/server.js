@@ -40,6 +40,5 @@ app.use("/posts", postRoutes);
 app.listen({ port: 3000 }, async () => {
   console.log("Listening on port 3000");
   await sequelize.authenticate();
-  sequelize.sync();
   console.log("Database Connected!");
 });
