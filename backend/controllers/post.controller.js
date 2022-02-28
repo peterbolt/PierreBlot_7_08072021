@@ -69,12 +69,13 @@ module.exports.createPost = async (req, res) => {
 
 module.exports.updatePost = async (req, res) => {
   const uuid = req.params.uuid;
-  const { message, picture, video } = req.body;
+  const { userId, message, picture, video } = req.body;
   try {
     const post = await Post.findOne({
       where: { uuid },
     });
-    if (post.userUuid !== req.auth.userUuid) {
+    if (post.posterId !== userId) {
+      console.log(userId);
       res.status(401).json({ message: "Vous n'avez pas les droits !" });
     }
     post.message = message;
@@ -92,11 +93,13 @@ module.exports.updatePost = async (req, res) => {
 
 module.exports.deletePost = async (req, res) => {
   const uuid = req.params.uuid;
+  const { userId } = req.body;
   try {
     const post = await Post.findOne({
       where: { uuid },
     });
-    if (post.userUuid !== req.auth.userUuid) {
+    if (post.posterId !== userId) {
+      console.log(posterId);
       res.status(401).json({ message: "Vous n'avez pas les droits !" });
     }
     await post.destroy();

@@ -5,6 +5,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 const { signUpErrors, signInErrors } = require("../utils/errors.utils");
 
+const maxAge = 3 * 24 * 60 * 60 * 1000;
+
 module.exports.signUp = async (req, res) => {
   const { pseudo, email, picture, admin } = req.body;
 
@@ -18,13 +20,14 @@ module.exports.signUp = async (req, res) => {
       admin,
     });
 
-    return res.status(201).json(user);
+    return res.status(201).json({ user: user.id });
   } catch (err) {
     const errors = signUpErrors(err);
-    return res.status(500).json(errors);
+    return res.status(200).json({ errors });
   }
 };
 
+// transformer en try/catch?
 module.exports.signIn = async (req, res) => {
   const user = await User.findOne({ where: { email: req.body.email } });
   if (user) {
@@ -34,12 +37,13 @@ module.exports.signIn = async (req, res) => {
     );
     if (password_valid) {
       token = jwt.sign(
-        { id: user.uuid, email: user.email, pseudo: user.pseudo },
+        { id: user.id, email: user.email, pseudo: user.pseudo },
         process.env.JWT_KEY_TOKEN,
         {
-          expiresIn: "12h",
+          expiresIn: maxAge,
         }
       );
+      res.cookie("jwt", token, { httpOnly: true, maxAge });
       res.status(200).json({ token: token });
     } else {
       // const errors = signInErrors(err);
@@ -51,43 +55,7 @@ module.exports.signIn = async (req, res) => {
   }
 };
 
-//____ login avec cookie à tester
-
-// const login = async (email, password) => {
-//   const user = await this.findOne({ email });
-//   if (user) {
-//     const auth = await bcrypt.compare(password, user.password);
-//     if (auth) {
-//       return user;
-//     }
-//     throw Error("incorrect password");
-//   }
-//   throw Error("incorrect email");
-// };
-
-// const maxAge = 3 * 24 * 60 * 60 * 1000;
-
-// const createToken = (id) => {
-//   return jwt.sign({ id }, process.env.JWT_KEY_TOKEN, {
-//     expiresIn: maxAge,
-//   });
-// };
-
-// module.exports.signIn = async (req, res) => {
-//   const { email, password } = req.body;
-
-//   try {
-//     const user = await login(email, password);
-//     const token = createToken(user.uuid);
-//     res.cookie("jwt", token, { httpOnly: true, maxAge });
-//     res.status(200).json({ user: user.id });
-//   } catch (err) {
-//     const errors = signInErrors(err);
-//     res.status(200).json({ errors });
-//   }
-// };
-
-// module.exports.logout = (req, res) => {
-//   res.cookie("jwt", "", { maxAge: 1 });
-//   res.redirect("/");
-// };
+module.exports.logout = (req, res) => {
+  res.cookie("jwt", "", { maxAge: 1 });
+  res.redirect("/");
+};

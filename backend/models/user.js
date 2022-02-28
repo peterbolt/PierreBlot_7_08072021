@@ -13,7 +13,13 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     toJSON() {
-      return { ...this.get(), id: undefined };
+      return {
+        ...this.get(),
+        id: undefined,
+        uuid: undefined,
+        password: undefined,
+        admin: undefined,
+      };
     }
   }
   User.init(
@@ -26,8 +32,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notNull: { msg: "Pseudo is required" },
-          notEmpty: { msg: "Pseudo is required" },
+          notNull: true,
+          notEmpty: true,
           len: [3, 24],
         },
       },
@@ -35,9 +41,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notNull: { msg: "Email is required" },
-          notEmpty: { msg: "Email is required" },
-          isEmail: { msg: "Email adress invalid" },
+          notNull: true,
+          notEmpty: true,
+          isEmail: true,
         },
         unique: true,
       },
@@ -45,15 +51,15 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notNull: { msg: "Password cannot be null" },
-          notEmpty: { msg: "Password cannot be null" },
+          notNull: true,
+          notEmpty: true,
           min: 3,
         },
       },
       picture: {
         type: DataTypes.STRING,
         allowNull: true,
-        default: "./assets/random-user.png",
+        default: "./uploads/profil/random-user.png",
       },
       admin: {
         type: DataTypes.BOOLEAN,
