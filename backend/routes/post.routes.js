@@ -4,11 +4,9 @@ const multer = require("multer");
 const upload = multer();
 
 router.get("/", postController.readPost);
-router.post("/", postController.createPost);
+router.post("/", upload.single("file"), postController.createPost);
 router.put("/:uuid", postController.updatePost);
 router.delete("/:uuid", postController.deletePost);
-
-// a ajouter à la route post upload.single("file"),
 
 // // comments
 // router.patch("/comment-post/:id", postController.commentPost);

@@ -5,7 +5,6 @@ const pipeline = promisify(require("stream").pipeline);
 const { uploadErrors } = require("../utils/errors.utils");
 
 module.exports.uploadProfil = async (req, res) => {
-  const uuid = req.params.uuid;
   try {
     if (
       req.file.detectedMimeType != "image/jpg" &&
@@ -29,20 +28,19 @@ module.exports.uploadProfil = async (req, res) => {
   );
 
   try {
-    await User.findOne({
-      where: { uuid },
-    });
-    req.body.userId,
-      { $set: { picture: "./uploads/profil/" + fileName } },
-      { new: true, upsert: true, setDefaultsOnInsert: true },
-      (err, docs) => {
-        if (!err) return res.send(docs);
-        else return res.status(500).send({ message: err });
-      };
+    const email = req.body.email;
 
-    //
-    // user.picture = `${__dirname}/../../frontend/client/public/uploads/profil/${fileName}`;
-    // await user.save();
+    const user = await User.findOne({ where: { email: email } });
+    if (user) {
+      const filePath = "./uploads/profil/" + fileName;
+      user.picture = filePath;
+    }
+
+    await user
+      .save()
+      .then((data) => res.send(data))
+      .catch((err) => res.status(500).send({ message: err }));
+
     // return res.json(user);
   } catch (err) {
     return res.status(500).send({ message: err });

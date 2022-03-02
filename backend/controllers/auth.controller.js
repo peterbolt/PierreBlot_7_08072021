@@ -8,7 +8,7 @@ const { signUpErrors, signInErrors } = require("../utils/errors.utils");
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 
 module.exports.signUp = async (req, res) => {
-  const { pseudo, email, picture, admin } = req.body;
+  const { pseudo, email, password } = req.body;
 
   try {
     const salt = await bcrypt.genSalt(10);
@@ -16,8 +16,6 @@ module.exports.signUp = async (req, res) => {
       pseudo,
       email,
       password: await bcrypt.hash(req.body.password, salt),
-      picture,
-      admin,
     });
 
     return res.status(201).json({ user: user.id });

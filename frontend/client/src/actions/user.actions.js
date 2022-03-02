@@ -16,7 +16,7 @@ export const getUser = (uuid) => {
   };
 };
 
-export const uploadPicture = (data, id) => {
+export const uploadPicture = (data, uuid) => {
   return (dispatch) => {
     return axios
       .post(`${process.env.REACT_APP_API_URL}users/upload`, data)
@@ -26,7 +26,7 @@ export const uploadPicture = (data, id) => {
         } else {
           dispatch({ type: GET_USER_ERRORS, payload: "" });
           return axios
-            .get(`${process.env.REACT_APP_API_URL}users/${id}`)
+            .get(`${process.env.REACT_APP_API_URL}users/${uuid}`)
             .then((res) => {
               dispatch({ type: UPLOAD_PICTURE, payload: res.data.picture });
             });

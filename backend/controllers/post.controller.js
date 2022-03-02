@@ -4,13 +4,6 @@ const fs = require("fs");
 const { promisify } = require("util");
 const pipeline = promisify(require("stream").pipeline);
 
-// module.exports.readPost = (req, res) => {
-//   PostModel.find((err, docs) => {
-//     if (!err) res.send(docs);
-//     else console.log("Error to get data : " + err);
-//   }).sort({ createdAt: -1 });
-// };
-
 module.exports.readPost = async (req, res) => {
   try {
     const posts = await Post.findAll({
