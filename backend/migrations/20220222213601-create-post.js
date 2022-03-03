@@ -13,7 +13,7 @@ module.exports = {
         defaultValue: DataTypes.UUIDV4,
       },
       posterId: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       message: {

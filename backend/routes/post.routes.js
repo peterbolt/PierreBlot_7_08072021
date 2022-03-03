@@ -6,7 +6,7 @@ const upload = multer();
 router.get("/", postController.readPost);
 router.post("/", upload.single("file"), postController.createPost);
 router.put("/:uuid", postController.updatePost);
-router.delete("/:uuid", postController.deletePost);
+router.delete("/:id", postController.deletePost);
 
 // // comments
 // router.patch("/comment-post/:id", postController.commentPost);
