@@ -204,20 +204,20 @@
       }
       p,
       textarea {
-        min-height: 80px;
+        width: 80%;
+        min-height: 30px;
         border: 1px solid $color-1;
-        border-radius: 20px 20px 6px 20px;
+        border-radius: 20px 20px 20px 20px;
         padding: 10px 20px;
         font-size: 1.1rem;
       }
       textarea {
-        width: 100%;
+        width: 80%;
         margin-bottom: -6px;
         font-size: 1.2rem;
       }
       button {
         margin: 5px 0;
-        float: right;
       }
       h4 {
         margin: 60px 0 10px;
@@ -267,7 +267,7 @@
       overflow: auto;
       transform: scaleY(0);
       transform-origin: center;
-      animation: modal .5s forwards;
+      animation: modal 0.5s forwards;
 
       h3 {
         min-width: 200px;
