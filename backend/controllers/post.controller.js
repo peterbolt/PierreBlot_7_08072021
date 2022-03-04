@@ -71,14 +71,10 @@ module.exports.updatePost = async (req, res) => {
     //   res.status(401).json({ message: "Vous n'avez pas les droits !" });
     // }
     post.message = req.body.message;
-
-    await post.save();
-    (err, docs) => {
-      if (!err) res.send(docs);
-      else console.log("Update error : " + err);
-    };
-    // .then((data) => res.send(data))
-    // .catch((err) => res.status(500).send({ message: err }));
+    await post
+      .save()
+      .then((data) => res.send(data))
+      .catch((err) => res.status(500).send({ message: err }));
 
     // return res.json(post);
   } catch (err) {
