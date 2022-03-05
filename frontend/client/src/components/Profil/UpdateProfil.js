@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePseudo } from "../../actions/user.actions";
+import { updatePassword } from "../../actions/user.actions";
 import UploadImg from "./UploadImg";
 import axios from "axios";
 
@@ -10,7 +11,7 @@ const UpdateProfil = () => {
   const [password, setPassword] = useState("");
   const [controlPassword, setControlPassword] = useState("");
   const [updateForm, setUpdateForm] = useState(false);
-  const [nowPassword, setNowPassword] = useState("");
+  // const [nowPassword, setNowPassword] = useState("");
 
   const userData = useSelector((state) => state.userReducer);
   const error = useSelector((state) => state.errorReducer.userError);
@@ -21,11 +22,8 @@ const UpdateProfil = () => {
     setUpdateForm(false);
   };
 
-  const cancelPass = () => {
-    setFormSubmit(false);
-  };
-
-  const handleRegister = async (e) => {
+  // TROUVER OU ça COINCE !!!!!
+  const handlePassUpdate = async (e) => {
     e.preventDefault();
     const passwordError = document.querySelector(".password.error");
     const passwordConfirmError = document.querySelector(
@@ -37,27 +35,59 @@ const UpdateProfil = () => {
     if (password !== controlPassword) {
       passwordConfirmError.innerHTML = "Les mots de passe ne correspondent pas";
     } else {
-      await axios({
-        method: "post",
-        url: `${process.env.REACT_APP_API_URL}users/register`,
-        withCredentials: true,
-        data: {
-          password,
-        },
-      })
-        .then((res) => {
-          if (res.data.errors) {
-            console.log(res.data.errors);
-            passwordError.innerHTML = res.data.errors.password;
-          } else {
-            setFormSubmit(true);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      dispatch(updatePassword(userData.uuid, password));
+      // .then((res) => {
+      //   console.log(res);
+      //   if (res.data) {
+      //     console.log(res.data.errors);
+      //     passwordError.innerHTML = res.data.errors.password;
+      //   } else {
+      //     setFormSubmit(true);
+      //   }
+      // })
+      // .catch((err) => {
+      //   console.log(err);
+      // });
+      setFormSubmit(true);
     }
   };
+
+  const cancelPass = () => {
+    setFormSubmit(false);
+  };
+
+  // const handleRegister = async (e) => {
+  //   e.preventDefault();
+  //   const passwordError = document.querySelector(".password.error");
+  //   const passwordConfirmError = document.querySelector(
+  //     ".password-confirm.error"
+  //   );
+
+  //   passwordConfirmError.innerHTML = "";
+
+  //   if (password !== controlPassword) {
+  //     passwordConfirmError.innerHTML = "Les mots de passe ne correspondent pas";
+  //   } else {
+  //     await axios({
+  //       method: "put",
+  //       url: `${process.env.REACT_APP_API_URL}users/` + userData.uuid,
+  //       data: {
+  //         password,
+  //       },
+  //     })
+  //       .then((res) => {
+  //         if (res.data.errors) {
+  //           console.log(res.data.errors);
+  //           passwordError.innerHTML = res.data.errors.password;
+  //         } else {
+  //           setFormSubmit(true);
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // };
 
   return (
     <div className="profil-container">
@@ -73,7 +103,7 @@ const UpdateProfil = () => {
         <div className="right-part">
           <div className="bio-update">
             <h3>Informations</h3>
-            <div>
+            <div className="info-update">
               {updateForm === false && (
                 <>
                   <p onClick={() => setUpdateForm(!updateForm)}>
@@ -90,20 +120,17 @@ const UpdateProfil = () => {
                     type="text"
                     defaultValue={userData.pseudo}
                     onChange={(e) => setPseudo(e.target.value)}
-                    value={pseudo}
                   ></textarea>
                   <button onClick={handleUpdate}>Valider modifications</button>
                 </>
               )}
             </div>
             <br />
-            <br />
-            <br />
             <div>
               {formSubmit ? (
                 <>
-                  <form action="" onSubmit={handleRegister} id="sign-up-form">
-                    <label htmlFor="password">Actuel</label>
+                  <form action="" onSubmit={handlePassUpdate} id="sign-up-form">
+                    {/* <label htmlFor="password">Actuel</label>
                     <br />
                     <input
                       type="password"
@@ -113,7 +140,7 @@ const UpdateProfil = () => {
                       value={nowPassword}
                     />
                     <div className="password error"></div>
-                    <br />
+                    <br /> */}
                     <label htmlFor="password">Nouveau</label>
                     <br />
                     <input

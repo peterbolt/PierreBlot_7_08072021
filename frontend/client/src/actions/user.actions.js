@@ -51,3 +51,17 @@ export const updatePseudo = (userUuid, pseudo) => {
       .catch((err) => console.log(err));
   };
 };
+
+export const updatePassword = (userUuid, password) => {
+  return (dispatch) => {
+    return axios({
+      method: "put",
+      url: `${process.env.REACT_APP_API_URL}users/` + userUuid,
+      data: { password },
+    })
+      .then((res) => {
+        dispatch({ type: UPDATE_PASSWORD, payload: password });
+      })
+      .catch((err) => console.log(err));
+  };
+};

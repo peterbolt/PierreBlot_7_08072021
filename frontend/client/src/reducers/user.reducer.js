@@ -2,6 +2,7 @@ import {
   GET_USER,
   UPLOAD_PICTURE,
   UPDATE_PSEUDO,
+  UPDATE_PASSWORD,
 } from "../actions/user.actions";
 
 const initialState = {};
@@ -18,7 +19,12 @@ export default function userReducer(state = initialState, action) {
     case UPDATE_PSEUDO:
       return {
         ...state,
-        bio: action.payload,
+        pseudo: action.payload,
+      };
+    case UPDATE_PASSWORD:
+      return {
+        ...state,
+        password: action.payload,
       };
     default:
       return state;

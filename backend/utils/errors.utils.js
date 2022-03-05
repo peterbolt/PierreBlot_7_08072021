@@ -46,3 +46,11 @@ module.exports.uploadErrors = (err) => {
 
   return errors;
 };
+
+module.exports.updateErrors = (err) => {
+  let errors = { password: "" };
+  if (err.message.includes("password"))
+    errors.password = "Le mot de passe doit faire 6 caractères minimum";
+
+  return errors;
+};

@@ -1,4 +1,8 @@
 const { User } = require("../models");
+const bcrypt = require("bcrypt");
+const dotenv = require("dotenv");
+dotenv.config();
+const { updateErrors } = require("../utils/errors.utils");
 
 module.exports.getAllUsers = async (req, res) => {
   const users = await User.findAll();
@@ -28,20 +32,36 @@ module.exports.userInfo = async (req, res) => {
 
 module.exports.updateUser = async (req, res) => {
   const userUuid = req.params.uuid;
-  const { pseudo } = req.body;
+  // const { pseudo } = req.body;
+  // try {
+  //   const user = await User.findOne({
+  //     where: { uuid: userUuid },
+  //   });
+  //   user.pseudo = pseudo;
+
+  //   await user
+  //     .save()
+  //     .then((data) => res.send(data))
+  //     .catch((err) => res.status(500).send({ message: err }));
+  // } catch (err) {
+  //   console.log(err);
+  //   return res.status(500).json({ error: "Something went wrong" });
+  // }
+
   try {
     const user = await User.findOne({
       where: { uuid: userUuid },
     });
-    user.pseudo = pseudo;
+    const salt = await bcrypt.genSalt(10);
+    password = await bcrypt.hash(req.body.password, salt);
 
     await user
       .save()
       .then((data) => res.send(data))
       .catch((err) => res.status(500).send({ message: err }));
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ error: "Something went wrong" });
+    const errors = updateErrors(err);
+    return res.status(200).json({ errors });
   }
 };
 
