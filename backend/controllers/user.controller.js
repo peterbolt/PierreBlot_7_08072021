@@ -32,31 +32,31 @@ module.exports.userInfo = async (req, res) => {
 
 module.exports.updateUser = async (req, res) => {
   const userUuid = req.params.uuid;
-  // const { pseudo } = req.body;
-  // try {
-  //   const user = await User.findOne({
-  //     where: { uuid: userUuid },
-  //   });
-  //   user.pseudo = pseudo;
+  const { pseudo } = req.body;
+  try {
+    const user = await User.findOne({
+      where: { uuid: userUuid },
+    });
+    user.pseudo = pseudo;
 
-  //   await user
-  //     .save()
-  //     .then((data) => res.send(data))
-  //     .catch((err) => res.status(500).send({ message: err }));
-  // } catch (err) {
-  //   console.log(err);
-  //   return res.status(500).json({ error: "Something went wrong" });
-  // }
+    await user
+      .save()
+      .then((data) => res.send(data))
+      .catch((err) => res.status(500).send({ message: err }));
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "Something went wrong" });
+  }
 
   try {
     const user = await User.findOne({
       where: { uuid: userUuid },
     });
     const salt = await bcrypt.genSalt(10);
-    password = await bcrypt.hash(req.body.password, salt);
-
     await user
-      .save()
+      .update({
+        password: await bcrypt.hash(req.body.password, salt),
+      })
       .then((data) => res.send(data))
       .catch((err) => res.status(500).send({ message: err }));
   } catch (err) {

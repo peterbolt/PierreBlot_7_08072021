@@ -28,6 +28,18 @@ module.exports = {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      comments: {
+        type: [
+          {
+            commenterId: DataTypes.STRING,
+            commenterPseudo: DataTypes.STRING,
+            text: DataTypes.STRING,
+            timestamp: DataTypes.INTEGER,
+          },
+        ],
+        allowNull: true,
+        required: true,
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
