@@ -7,9 +7,9 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ Post }) {
+    static associate(models) {
       // define association here
-      this.hasMany(Post, { foreignKey: "posterId", as: "posts" });
+      this.hasMany(models.Post, { foreignKey: "posterId", as: "posts" });
     }
 
     toJSON() {
@@ -57,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
       picture: {
         type: DataTypes.STRING,
         allowNull: true,
-        default: "./uploads/profil/random-user.png",
+        default: "./images/random-user.png",
       },
       admin: {
         type: DataTypes.BOOLEAN,

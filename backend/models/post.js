@@ -7,9 +7,14 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ User }) {
+    static associate(models) {
       // define association here
-      this.belongsTo(User, { foreignKey: "posterId", as: "user" });
+
+      this.belongsTo(models.User, { foreignKey: "posterId", as: "user" });
+      this.hasMany(models.Comment, {
+        foreignKey: "postOwnerId",
+        as: "comments",
+      });
     }
     toJSON() {
       return {
@@ -38,18 +43,6 @@ module.exports = (sequelize, DataTypes) => {
       video: {
         type: DataTypes.STRING,
         allowNull: true,
-      },
-      comments: {
-        type: [
-          {
-            commenterId: DataTypes.STRING,
-            commenterPseudo: DataTypes.STRING,
-            text: DataTypes.STRING,
-            timestamp: DataTypes.INTEGER,
-          },
-        ],
-        allowNull: true,
-        required: true,
       },
     },
     {

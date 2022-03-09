@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { dateParser, isEmpty } from "../Utils";
-import { updatePost } from "../../actions/post.actions";
+import { getComments, updatePost } from "../../actions/post.actions";
 import DeleteCard from "./DeleteCard";
+import CardComments from "./CardComments";
 
 const Card = ({ post }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdated, setIsUpdated] = useState(false);
   const [textUpdate, setTextUpdate] = useState(null);
+  const [showComments, setShowComments] = useState(false);
   const usersData = useSelector((state) => state.usersReducer);
   const userData = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   if (showComments) {
+  //     dispatch(getComments());
+  //   }
+  // }, [showComments, dispatch]);
 
   const updateItem = () => {
     if (textUpdate) {
@@ -96,6 +104,17 @@ const Card = ({ post }) => {
                 <DeleteCard id={post.id} />
               </div>
             )}
+            <div className="card-footer">
+              <div className="comment-icon">
+                <img
+                  onClick={() => setShowComments(!showComments)}
+                  src="./img/icons/message1.svg"
+                  alt="comment"
+                />
+                <span>{post.comments.length}</span>
+              </div>
+            </div>
+            {showComments && <CardComments post={post} />}
           </div>
         </>
       )}

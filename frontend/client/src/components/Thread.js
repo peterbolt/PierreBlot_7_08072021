@@ -16,8 +16,6 @@ const Thread = () => {
     }
   }, [loadPost, dispatch]);
 
-  // console.log(posts);
-
   return (
     <div className="thread-container">
       <ul>

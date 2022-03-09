@@ -1,7 +1,7 @@
 "use strict";
 module.exports = {
   async up(queryInterface, DataTypes) {
-    await queryInterface.createTable("Posts", {
+    await queryInterface.createTable("posts", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -27,18 +27,6 @@ module.exports = {
       video: {
         type: DataTypes.STRING,
         allowNull: true,
-      },
-      comments: {
-        type: [
-          {
-            commenterId: DataTypes.STRING,
-            commenterPseudo: DataTypes.STRING,
-            text: DataTypes.STRING,
-            timestamp: DataTypes.INTEGER,
-          },
-        ],
-        allowNull: true,
-        required: true,
       },
       createdAt: {
         allowNull: false,

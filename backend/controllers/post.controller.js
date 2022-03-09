@@ -1,13 +1,14 @@
-const { Post } = require("../models");
+const { Post, Comment, User } = require("../models");
 const { uploadErrors } = require("../utils/errors.utils");
 const fs = require("fs");
 const { promisify } = require("util");
 const pipeline = promisify(require("stream").pipeline);
 
+// Gestion des posts
 module.exports.readPost = async (req, res) => {
   try {
     const posts = await Post.findAll({
-      include: "user",
+      include: ["user", "comments"],
     });
     return res.json(posts);
   } catch (err) {
@@ -84,17 +85,76 @@ module.exports.updatePost = async (req, res) => {
 
 module.exports.deletePost = async (req, res) => {
   const postId = req.params.id;
-  console.log(req.params);
   try {
     const post = await Post.findOne({
       where: { id: postId },
     });
     if (!postId) return res.status(400).send("ID unknown : " + postId);
-    console.log(post);
     await post.destroy();
     return res.json({ message: "Post deleted" });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
+// Gestion des commentaires
+
+module.exports.readComment = async (req, res) => {
+  try {
+    const comments = await Comment.findAll();
+    return res.json(comments);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
+
+module.exports.commentPost = async (req, res) => {
+  const newComment = await Comment.create({
+    commenterId: req.body.commenterId,
+    commenterPseudo: req.body.commenterPseudo,
+    postOwnerId: req.body.postOwnerId,
+    text: req.body.text,
+  });
+  try {
+    const comment = await newComment.save();
+    return res.status(201).json(comment);
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+};
+
+module.exports.editCommentPost = async (req, res) => {
+  const commentId = req.params.id;
+  try {
+    const comment = await Comment.findOne({
+      where: { id: commentId },
+    });
+    if (!commentId) return res.status(404).send("Comment not found");
+
+    // if (comment.commenterId !== parseInt(req.body.userId)) {
+    //   res.status(401).json({ message: "Vous n'avez pas les droits !" });
+    // }
+    comment.text = req.body.text;
+    await comment
+      .save()
+      .then((data) => res.send(data))
+      .catch((err) => res.status(500).send({ message: err }));
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+};
+
+module.exports.deleteCommentPost = async (req, res) => {
+  const commentId = req.params.id;
+  try {
+    const comment = await Comment.findOne({
+      where: { id: commentId },
+    });
+    if (!commentId) return res.status(404).send("Comment not found");
+    await comment.destroy();
+    return res.json({ message: "Comment deleted" });
+  } catch (err) {
+    return res.status(400).send(err);
   }
 };

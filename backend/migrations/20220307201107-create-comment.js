@@ -1,38 +1,28 @@
 "use strict";
 module.exports = {
   async up(queryInterface, DataTypes) {
-    await queryInterface.createTable("users", {
+    await queryInterface.createTable("comments", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      uuid: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
+      commenterId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
       },
-      pseudo: {
+      commenterPseudo: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      password: {
-        type: DataTypes.STRING,
+      postOwnerId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
-      picture: {
+      text: {
         type: DataTypes.STRING,
-        allowNull: true,
-      },
-      admin: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true,
-        defaultValue: false,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -45,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, DataTypes) {
-    await queryInterface.dropTable("users");
+    await queryInterface.dropTable("comments");
   },
 };

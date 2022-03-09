@@ -21,7 +21,7 @@ module.exports.userInfo = async (req, res) => {
   try {
     const user = await User.findOne({
       where: { uuid: userUuid },
-      include: "posts",
+      include: ["posts"],
     });
     return res.json(user);
   } catch (err) {
