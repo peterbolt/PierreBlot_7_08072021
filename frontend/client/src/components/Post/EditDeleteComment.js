@@ -1,25 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteComment, editComment } from "../../actions/post.actions";
+import {
+  getPosts,
+  deleteComment,
+  editComment,
+} from "../../actions/post.actions";
 
-const EditDeleteComment = ({ comment }) => {
+const EditDeleteComment = ({ comment, postId }) => {
+  const [isDeleted, setIsDeleted] = useState(false);
   const [isAuthor, setIsAuthor] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [text, setText] = useState("");
+  const [textUpdate, setTextUpdate] = useState("");
   const userData = useSelector((state) => state.userReducer);
+  // const commentData = useSelector((state) => state.commentReducer);
   const dispatch = useDispatch();
 
   const handleEdit = (e) => {
     e.preventDefault();
-
-    if (text) {
-      dispatch(editComment(comment.id, text));
-      setText("");
-      setEdit(false);
+    if (textUpdate) {
+      dispatch(editComment(comment.id, textUpdate)).then(() =>
+        dispatch(getPosts())
+      );
     }
+
+    setEdit(false);
   };
 
-  const handleDelete = () => dispatch(deleteComment(comment.id));
+  const handleDelete = () => {
+    dispatch(deleteComment(postId, comment.id)).then(() =>
+      dispatch(getPosts())
+    );
+  };
 
   useEffect(() => {
     const checkAuthor = () => {
@@ -37,6 +48,7 @@ const EditDeleteComment = ({ comment }) => {
           <img src="./img/icons/edit.svg" alt="edit-comment" />
         </span>
       )}
+
       {isAuthor && edit && (
         <form action="" onSubmit={handleEdit} className="edit-comment-form">
           <label htmlFor="text" onClick={() => setEdit(!edit)}>
@@ -46,8 +58,8 @@ const EditDeleteComment = ({ comment }) => {
           <input
             type="text"
             name="text"
-            onChange={(e) => setText(e.target.value)}
             defaultValue={comment.text}
+            onChange={(e) => setTextUpdate(e.target.value)}
           />
           <br />
           <div className="btn">

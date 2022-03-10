@@ -46,17 +46,17 @@ export const addPost = (data) => {
   };
 };
 
-export const updatePost = (postId, postUuid, posterId, message) => {
+export const updatePost = (postId, message) => {
   return (dispatch) => {
     return axios({
       method: "put",
-      url: `${process.env.REACT_APP_API_URL}posts/${postUuid}`,
+      url: `${process.env.REACT_APP_API_URL}posts/${postId}`,
       data: { message },
     })
       .then((res) => {
         dispatch({
           type: UPDATE_POST,
-          payload: { message, postId, postUuid, posterId },
+          payload: { message, postId },
         });
       })
       .catch((err) => console.log(err));
@@ -128,7 +128,7 @@ export const editComment = (commentId, text) => {
   };
 };
 
-export const deleteComment = (commentId) => {
+export const deleteComment = (postId, commentId) => {
   return (dispatch) => {
     return axios({
       method: "delete",
@@ -136,7 +136,7 @@ export const deleteComment = (commentId) => {
       data: { commentId },
     })
       .then((res) => {
-        dispatch({ type: DELETE_COMMENT, payload: { commentId } });
+        dispatch({ type: DELETE_COMMENT, payload: { postId, commentId } });
       })
       .catch((err) => console.log(err));
   };

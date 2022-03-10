@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { dateParser, isEmpty } from "../Utils";
-import { getComments, updatePost } from "../../actions/post.actions";
+import { updatePost } from "../../actions/post.actions";
 import DeleteCard from "./DeleteCard";
 import CardComments from "./CardComments";
 
@@ -14,15 +14,9 @@ const Card = ({ post }) => {
   const userData = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (showComments) {
-  //     dispatch(getComments());
-  //   }
-  // }, [showComments, dispatch]);
-
   const updateItem = () => {
     if (textUpdate) {
-      dispatch(updatePost(post.id, post.uuid, post.posterId, textUpdate));
+      dispatch(updatePost(post.id, textUpdate));
     }
     setIsUpdated(false);
   };

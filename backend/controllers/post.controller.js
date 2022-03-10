@@ -61,12 +61,12 @@ module.exports.createPost = async (req, res) => {
 };
 
 module.exports.updatePost = async (req, res) => {
-  const postUuid = req.params.uuid;
+  const postId = req.params.id;
   try {
     const post = await Post.findOne({
-      where: { uuid: postUuid },
+      where: { id: postId },
     });
-    if (!postUuid) return res.status(400).send("ID unknown : " + postUuid);
+    if (!postId) return res.status(400).send("ID unknown : " + postId);
     // if (post.posterId !== parseInt(req.body.userId)) {
     //   res.status(401).json({ message: "Vous n'avez pas les droits !" });
     // }

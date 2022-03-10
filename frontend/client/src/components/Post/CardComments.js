@@ -51,7 +51,7 @@ const CardComments = ({ post }) => {
                 <div className="pseudo">
                   <h3>{comment.commenterPseudo}</h3>
                 </div>
-                <span>{timestampParser(comment.createdAt)}</span>
+                <span>{timestampParser(comment.updatedAt)}</span>
               </div>
               <p>{comment.text}</p>
               <EditDeleteComment comment={comment} postId={post.id} />

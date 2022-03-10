@@ -36,7 +36,17 @@ export default function postReducer(state = initialState, action) {
         } else return comment;
       });
     case DELETE_COMMENT:
-      return state.filter((comment) => comment.id !== action.payload.commentId);
+      return state.map((comment) => {
+        if (comment.postOwnerId === action.payload.postId) {
+          return {
+            ...comment,
+            comments: comment.filter(
+              (comment) => comment.id !== action.payload.commentId
+            ),
+          };
+        } else return comment;
+      });
+    // return state.filter((comment) => comment.id !== action.payload.commentId);
     default:
       return state;
   }
