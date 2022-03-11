@@ -28,7 +28,7 @@ module.exports = {
       picture: {
         type: DataTypes.STRING,
         allowNull: true,
-        defaultValue: "./images/random-user.png",
+        defaultValue: "./uploads/profil/random-user.png",
       },
       admin: {
         type: DataTypes.BOOLEAN,

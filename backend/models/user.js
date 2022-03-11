@@ -57,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
       picture: {
         type: DataTypes.STRING,
         allowNull: true,
-        default: "./images/random-user.png",
+        default: "./uploads/profil/random-user.png",
       },
       admin: {
         type: DataTypes.BOOLEAN,

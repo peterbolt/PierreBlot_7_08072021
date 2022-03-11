@@ -11,7 +11,6 @@ const EditDeleteComment = ({ comment, postId }) => {
   const [edit, setEdit] = useState(false);
   const [textUpdate, setTextUpdate] = useState("");
   const userData = useSelector((state) => state.userReducer);
-  // const commentData = useSelector((state) => state.commentReducer);
   const dispatch = useDispatch();
 
   const handleEdit = (e) => {
