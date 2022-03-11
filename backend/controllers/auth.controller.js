@@ -7,11 +7,11 @@ const { signUpErrors, signInErrors } = require("../utils/errors.utils");
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 
-// const createToken = (id) => {
-//   return jwt.sign({id}, process.env.TOKEN_SECRET, {
-//     expiresIn: maxAge
-//   })
-// };
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_KEY_TOKEN, {
+    expiresIn: maxAge,
+  });
+};
 
 module.exports.signUp = async (req, res) => {
   const { pseudo, email, password } = req.body;
@@ -31,31 +31,29 @@ module.exports.signUp = async (req, res) => {
   }
 };
 
-// transformer en try/catch?
 module.exports.signIn = async (req, res) => {
-  const user = await User.findOne({ where: { email: req.body.email } });
-  if (user) {
-    const password_valid = await bcrypt.compare(
-      req.body.password,
-      user.password
-    );
-    if (password_valid) {
-      token = jwt.sign(
-        { id: user.id, email: user.email, pseudo: user.pseudo },
-        process.env.JWT_KEY_TOKEN,
-        {
-          expiresIn: maxAge,
-        }
-      );
-      res.cookie("jwt", token, { httpOnly: true, maxAge });
-      res.status(200).json({ token: token });
-    } else {
-      // const errors = signInErrors(err);
-      res.status(400).json({ error: "Password Incorrect" });
+  login = async function (email, password) {
+    const user = await User.findOne({ where: { email } });
+    if (user) {
+      const valid = await bcrypt.compare(password, user.password);
+      if (valid) {
+        return user;
+      }
+      throw Error("incorrect password");
     }
-  } else {
-    // const errors = signInErrors(err);
-    res.status(404).json({ error: "User does not exist" });
+    throw Error("incorrect email");
+  };
+
+  const { email, password } = req.body;
+
+  try {
+    const user = await login(email, password);
+    const token = createToken(user.id);
+    res.cookie("jwt", token, { httpOnly: true, maxAge });
+    res.status(200).json({ token });
+  } catch (err) {
+    const errors = signInErrors(err);
+    res.status(200).json({ errors });
   }
 };
 
