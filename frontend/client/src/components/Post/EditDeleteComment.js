@@ -7,7 +7,6 @@ import {
 } from "../../actions/post.actions";
 
 const EditDeleteComment = ({ comment, postId }) => {
-  const [isDeleted, setIsDeleted] = useState(false);
   const [isAuthor, setIsAuthor] = useState(false);
   const [edit, setEdit] = useState(false);
   const [textUpdate, setTextUpdate] = useState("");

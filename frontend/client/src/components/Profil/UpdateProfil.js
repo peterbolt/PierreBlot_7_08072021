@@ -4,6 +4,7 @@ import { updatePseudo } from "../../actions/user.actions";
 // import { updatePassword } from "../../actions/user.actions";
 import UploadImg from "./UploadImg";
 import axios from "axios";
+import DeleteProfil from "./DeleteProfil";
 
 const UpdateProfil = () => {
   const [formSubmit, setFormSubmit] = useState(false);
@@ -172,6 +173,9 @@ const UpdateProfil = () => {
                 </>
               )}
             </div>
+            <>
+              <DeleteProfil uuid={userData.uuid} />
+            </>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import axios from "axios";
 export const GET_USER = "GET_USER";
 export const UPLOAD_PICTURE = "UPLOAD_PICTURE";
 export const UPDATE_PSEUDO = "UPDATE_PSEUDO";
+export const DELETE_USER = "DELETE_USER";
 
 export const GET_USER_ERRORS = "GET_USER_ERRORS";
 
@@ -46,6 +47,22 @@ export const updatePseudo = (userUuid, pseudo) => {
     })
       .then((res) => {
         dispatch({ type: UPDATE_PSEUDO, payload: pseudo });
+      })
+      .catch((err) => console.log(err));
+  };
+};
+
+export const deleteUser = (userUuid) => {
+  return (dispatch) => {
+    return axios({
+      method: "delete",
+      url: `${process.env.REACT_APP_API_URL}users/` + userUuid,
+    })
+      .then((res) => {
+        dispatch({
+          type: DELETE_USER,
+          payload: { userUuid },
+        });
       })
       .catch((err) => console.log(err));
   };

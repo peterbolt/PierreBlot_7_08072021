@@ -66,7 +66,7 @@ module.exports.updateUser = async (req, res) => {
 };
 
 module.exports.deleteUser = async (req, res) => {
-  const userUuid = req.params.uuid;
+  const userUuid = JSON.parse(req.params.uuid);
   try {
     const user = await User.findOne({
       where: { uuid: userUuid },

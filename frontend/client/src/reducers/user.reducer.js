@@ -2,7 +2,7 @@ import {
   GET_USER,
   UPLOAD_PICTURE,
   UPDATE_PSEUDO,
-  // UPDATE_PASSWORD,
+  DELETE_USER,
 } from "../actions/user.actions";
 
 const initialState = {};
@@ -21,11 +21,8 @@ export default function userReducer(state = initialState, action) {
         ...state,
         pseudo: action.payload,
       };
-    // case UPDATE_PASSWORD:
-    //   return {
-    //     ...state,
-    //     password: action.payload,
-    //   };
+    case DELETE_USER:
+      return state.filter((user) => user.uuid !== action.payload.userUuid);
     default:
       return state;
   }
