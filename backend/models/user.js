@@ -16,7 +16,6 @@ module.exports = (sequelize, DataTypes) => {
       return {
         ...this.get(),
         password: undefined,
-        admin: undefined,
       };
     }
   }

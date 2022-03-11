@@ -11,21 +11,25 @@ const Trends = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // a utiliser peut etre
+    // usersData[0] &&
+    //   usersData
+    //     .map((user) => {
+    //       if (user.admin === true && user.id === post.posterId) {
+    //         return user.picture;
+    //       } else return null;
+    //     })
+    //     .join("");
+
     if (!isEmpty(posts[0])) {
-      posts.map((post) => {
-        if (post.posterId === "1") {
-          return posts; // comment récupérer les posts du user??
-        } else return null;
-      });
       const postsArr = Object.keys(posts).map((i) => posts[i]);
       let sortedArray = postsArr
-        .filter((posts) => posts.posterId === 4)
+        .filter((posts) => posts.posterId === 1)
         .reverse();
-      // if(userData.admin === true)
       sortedArray.length = 5;
       dispatch(getTrends(sortedArray));
     }
-  }, [posts, dispatch]);
+  }, [posts, usersData, dispatch]);
 
   return (
     <div className="trending-container">
@@ -53,7 +57,10 @@ const Trends = () => {
                           usersData[0] &&
                           usersData
                             .map((user) => {
-                              if (user.id === post.posterId) {
+                              if (
+                                user.admin === true &&
+                                user.id === post.posterId
+                              ) {
                                 return user.picture;
                               } else return null;
                             })
