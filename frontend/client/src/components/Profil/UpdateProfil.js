@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updatePseudo } from "../../actions/user.actions";
-// import { updatePassword } from "../../actions/user.actions";
+import { getUser, updatePseudo } from "../../actions/user.actions";
 import UploadImg from "./UploadImg";
 import axios from "axios";
 import DeleteProfil from "./DeleteProfil";
@@ -19,6 +18,7 @@ const UpdateProfil = () => {
 
   const handleUpdate = () => {
     dispatch(updatePseudo(userData.uuid, pseudo));
+    window.location = "/profil"; //voir comment dispatch pseudo sur l'accueil sans rafraichir
     setUpdateForm(false);
   };
 
@@ -57,19 +57,6 @@ const UpdateProfil = () => {
         });
       setFormSubmit(false);
       document.querySelector(".success").innerHTML = "Mot de passe enregistré";
-      // .then((res) => {
-      //   console.log(res);
-      //   if (res.data) {
-      //     console.log(res.data.errors);
-      //     passwordError.innerHTML = res.data.errors.password;
-      //   } else {
-      //     setFormSubmit(true);
-      //   }
-      // })
-      // .catch((err) => {
-      //   console.log(err);
-      // });
-      // setFormSubmit(true);
     }
   };
 

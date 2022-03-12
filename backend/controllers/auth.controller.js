@@ -7,8 +7,8 @@ const { signUpErrors, signInErrors } = require("../utils/errors.utils");
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 
-const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_KEY_TOKEN, {
+const createToken = (userId, userAdmin) => {
+  return jwt.sign({ id: userId, admin: userAdmin }, process.env.JWT_KEY_TOKEN, {
     expiresIn: maxAge,
   });
 };
@@ -48,7 +48,7 @@ module.exports.signIn = async (req, res) => {
 
   try {
     const user = await login(email, password);
-    const token = createToken(user.id);
+    const token = createToken(user.id, user.admin);
     res.cookie("jwt", token, { httpOnly: true, maxAge });
     res.status(200).json({ token });
   } catch (err) {

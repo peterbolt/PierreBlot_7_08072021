@@ -41,13 +41,13 @@ const EditDeleteComment = ({ comment, postId }) => {
 
   return (
     <div className="edit-comment">
-      {isAuthor && edit === false && (
+      {(isAuthor || userData.admin === true) && edit === false && (
         <span onClick={() => setEdit(!edit)}>
           <img src="./img/icons/edit.svg" alt="edit-comment" />
         </span>
       )}
 
-      {isAuthor && edit && (
+      {(isAuthor || userData.admin === true) && edit && (
         <form action="" onSubmit={handleEdit} className="edit-comment-form">
           <label htmlFor="text" onClick={() => setEdit(!edit)}>
             Fermer
