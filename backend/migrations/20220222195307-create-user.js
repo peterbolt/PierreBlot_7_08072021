@@ -15,15 +15,29 @@ module.exports = {
       pseudo: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: true,
+          notEmpty: true,
+          len: [3, 24],
+        },
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: true,
+          notEmpty: true,
+          isEmail: true,
+        },
         unique: true,
       },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: true,
+          notEmpty: true,
+        },
       },
       picture: {
         type: DataTypes.STRING,

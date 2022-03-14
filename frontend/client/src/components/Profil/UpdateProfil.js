@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser, updatePseudo } from "../../actions/user.actions";
+import { updatePseudo } from "../../actions/user.actions";
 import UploadImg from "./UploadImg";
 import axios from "axios";
 import DeleteProfil from "./DeleteProfil";

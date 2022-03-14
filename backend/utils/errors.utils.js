@@ -1,24 +1,17 @@
 module.exports.signUpErrors = (err) => {
   let errors = { pseudo: "", email: "", password: "" };
+  console.log(err.message);
 
-  if (err.errors[0].message.includes("pseudo"))
-    errors.pseudo = "Pseudo incorrect ou déjà pris";
+  if (err.message.includes(`pseudo`))
+    errors.pseudo = "Pseudo incorrect (3 caractères minimum)";
 
-  if (err.errors[0].message.includes("email")) errors.email = "Email incorrect";
+  if (err.message.includes("email")) errors.email = "Email incorrect";
 
-  if (err.errors[0].message.includes("password"))
-    errors.password = "Le mot de passe doit faire 6 caractères minimum";
+  if (err.message.includes("password"));
+  errors.password =
+    "Le mot de passe doit faire 6 caractères minimum, avoir au moins une lettre majuscule, une lettre minuscule et un chiffre";
 
-  if (
-    err.errors[0].message.includes("pseudo") &&
-    err.errors[0].type.includes("unique")
-  )
-    errors.pseudo = "Ce pseudo est déjà pris";
-
-  if (
-    err.errors[0].message.includes("email") &&
-    err.errors[0].type.includes("unique")
-  )
+  if (err.message.includes("email") && err.message.includes("existant"))
     errors.email = "Cet email est déjà enregistré";
 
   return errors;

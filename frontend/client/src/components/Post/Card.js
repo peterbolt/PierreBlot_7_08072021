@@ -4,8 +4,6 @@ import { dateParser, isEmpty } from "../Utils";
 import { updatePost } from "../../actions/post.actions";
 import DeleteCard from "./DeleteCard";
 import CardComments from "./CardComments";
-import jwt_decode from "jwt-decode";
-// const decoded = jwt_decode(token);
 
 const Card = ({ post }) => {
   const [isLoading, setIsLoading] = useState(true);

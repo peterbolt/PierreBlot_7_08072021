@@ -32,6 +32,7 @@
     "redis": "^4.0.3",
     "sequelize": "^6.16.2",
     "sequelize-cli": "^6.4.1",
+    "sql-injection": "0.0.7",
     "validator": "^13.7.0"
   }
 }

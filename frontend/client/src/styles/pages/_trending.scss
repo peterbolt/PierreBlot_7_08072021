@@ -30,6 +30,10 @@
       @media screen and(min-width: 1200px) {
         width: 404px;
       }
+
+      @media screen and(max-width: 990px) {
+        display: none;
+      }
     }
   }
 }

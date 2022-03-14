@@ -50,7 +50,6 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notNull: true,
           notEmpty: true,
-          min: 3,
         },
       },
       picture: {

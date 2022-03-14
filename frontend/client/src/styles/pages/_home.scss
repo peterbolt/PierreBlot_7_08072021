@@ -7,7 +7,7 @@
   position: relative;
 
   @media screen and(max-width: 990px) {
-    grid-template-columns: 60px 1fr;
+    grid-template-columns: 1fr;
     margin: 58px 20px 50px;
   }
 
@@ -77,11 +77,27 @@
     margin: 0px 0 0 14px;
 
     @media screen and(max-width: 990px) {
-      display: none;
+      width: 1fr;
+      // display: none;
     }
 
     .right-side-container {
       position: fixed;
+
+      @media screen and(max-width: 990px) {
+        position: relative;
+      }
+
+      .wrapper {
+        .trending-container {
+          width: 1fr;
+
+          @media screen and(max-width: 990px) {
+            position: relative;
+            width: 97%;
+          }
+        }
+      }
     }
   }
 }
