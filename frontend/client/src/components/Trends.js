@@ -11,16 +11,6 @@ const Trends = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // a utiliser peut etre
-    // usersData[0] &&
-    //   usersData
-    //     .map((user) => {
-    //       if (user.admin === true && user.id === post.posterId) {
-    //         return user.picture;
-    //       } else return null;
-    //     })
-    //     .join("");
-
     if (!isEmpty(posts[0])) {
       const postsArr = Object.keys(posts).map((i) => posts[i]);
       let sortedArray = postsArr

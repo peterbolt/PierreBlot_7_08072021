@@ -46,7 +46,6 @@ export default function postReducer(state = initialState, action) {
           };
         } else return comment;
       });
-    // return state.filter((comment) => comment.id !== action.payload.commentId);
     default:
       return state;
   }

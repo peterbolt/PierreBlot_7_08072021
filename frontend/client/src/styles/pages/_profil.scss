@@ -347,20 +347,6 @@
             text-align: left;
             min-width: 210px;
           }
-          .follow-handler {
-            text-align: left;
-
-            button {
-              background: $color-4;
-              border-radius: 20px;
-              margin-right: 6px;
-
-              &:hover {
-                color: $color-3;
-                transform: translateX(2px);
-              }
-            }
-          }
         }
       }
     }

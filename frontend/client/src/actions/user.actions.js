@@ -38,15 +38,15 @@ export const uploadPicture = (data, uuid) => {
   };
 };
 
-export const updatePseudo = (userUuid, pseudo) => {
+export const updatePseudo = (userUuid, pseudo, userId) => {
   return (dispatch) => {
     return axios({
       method: "put",
       url: `${process.env.REACT_APP_API_URL}users/` + userUuid,
-      data: { pseudo },
+      data: { pseudo, userId },
     })
       .then((res) => {
-        dispatch({ type: UPDATE_PSEUDO, payload: pseudo });
+        dispatch({ type: UPDATE_PSEUDO, payload: pseudo, userId });
       })
       .catch((err) => console.log(err));
   };

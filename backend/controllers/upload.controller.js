@@ -41,8 +41,6 @@ module.exports.uploadProfil = async (req, res) => {
       .save()
       .then((data) => res.send(data))
       .catch((err) => res.status(500).send({ message: err }));
-
-    // return res.json(user);
   } catch (err) {
     return res.status(500).send({ message: err });
   }

@@ -17,8 +17,8 @@ const UpdateProfil = () => {
   const dispatch = useDispatch();
 
   const handleUpdate = () => {
-    dispatch(updatePseudo(userData.uuid, pseudo));
-    window.location = "/profil"; //voir comment dispatch pseudo sur l'accueil sans rafraichir
+    dispatch(updatePseudo(userData.uuid, pseudo, userData.id));
+    window.location = "/profil";
     setUpdateForm(false);
   };
 
@@ -34,8 +34,6 @@ const UpdateProfil = () => {
     if (password !== controlPassword) {
       passwordConfirmError.innerHTML = "Les mots de passe ne correspondent pas";
     } else {
-      // dispatch(updatePassword(userData.uuid, password));
-
       await axios({
         method: "put",
         url: `${process.env.REACT_APP_API_URL}users/${userData.uuid}`,

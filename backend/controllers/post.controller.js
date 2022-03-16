@@ -67,16 +67,11 @@ module.exports.updatePost = async (req, res) => {
       where: { id: postId },
     });
     if (!postId) return res.status(400).send("ID unknown : " + postId);
-    // if (post.posterId !== parseInt(req.body.userId)) {
-    //   res.status(401).json({ message: "Vous n'avez pas les droits !" });
-    // }
     post.message = req.body.message;
     await post
       .save()
       .then((data) => res.send(data))
       .catch((err) => res.status(500).send({ message: err }));
-
-    // return res.json(post);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: "Something went wrong" });
@@ -132,9 +127,6 @@ module.exports.editCommentPost = async (req, res) => {
     });
     if (!commentId) return res.status(404).send("Comment not found");
 
-    // if (comment.commenterId !== parseInt(req.body.userId)) {
-    //   res.status(401).json({ message: "Vous n'avez pas les droits !" });
-    // }
     comment.text = req.body.text;
     await comment
       .save()

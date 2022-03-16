@@ -15,8 +15,6 @@ const createToken = (userId, userAdmin) => {
 
 module.exports.signUp = async (req, res) => {
   validPseudo = async function (pseudo) {
-    // const pseudoRegex = /^(?=.*[a-z])(?=.*[A-Z]).{3,36}*$/;
-    // const valid = await pseudo.match(pseudoRegex);
     if (pseudo.length >= 3) {
       return pseudo;
     }

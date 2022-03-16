@@ -12,8 +12,8 @@ const cors = require("cors");
 const app = express();
 
 // var sqlinjection = require("sql-injection");
-const client = require("redis").createClient();
-var limiter = require("express-limiter")(app, client);
+// const client = require("redis").createClient();
+// var limiter = require("express-limiter")(app, client);
 
 const corsOptions = {
   origin: process.env.CLIENT_URL,
@@ -34,14 +34,14 @@ app.use(helmet());
 // app.use(sqlinjection);
 
 // Limite la connexion par adresse IP
-limiter({
-  path: "/",
-  method: "get",
-  lookup: ["connection.remoteAddress"],
-  // 150 requests per hour
-  total: 150,
-  expire: 1000 * 60 * 60,
-});
+// limiter({
+//   path: "/",
+//   method: "get",
+//   lookup: ["connection.remoteAddress"],
+//   // 150 requests per hour
+//   total: 150,
+//   expire: 1000 * 60 * 60,
+// });
 
 // jwt
 app.get("*", checkUser);
