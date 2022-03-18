@@ -17,23 +17,23 @@ Base de données MySQL </br>
 Connectez-vous à MySQL : `mysql -u root -p` </br>
 Tapez votre mot de passe : `******` </br>
 
-Utiliser la base de données exemple:
+<strong>Utiliser la base de données exemple:</strong></br>
 Créez la base de données : `CREATE DATABASE groupomaniadb_dev;` </br>
 Utilisez la base de données créée : `USE groupomaniadb_dev;` </br>
 Importez les tables groupomaniadb_dev_TABLES.sql : `SOURCE groupomaniadb_dev.sql;` </br>
 
-Créer et Utiliser votre base de donnée:
+<strong>Créer et Utiliser votre base de donnée:</strong></br>
 Créez la base de données : `CREATE DATABASE votreBDD;` </br>
 Utilisez la base de données créée : `USE votreBDD;` </br>
 Changer le fichier config.json (backend/config/config.json) avec vos innformations:</br>
-"development": {
+`"development": {
     "username": "votre username BDD",
     "password": "votre password BDD",
     "database": "votreBDD",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "port": "votre port de BDD"
-  },</br>
+  },`</br>
 
 <h2>Installation et démarrage du Backend</h2> </br>
 <strong>Ouvrez un terminal</strong> </br>
